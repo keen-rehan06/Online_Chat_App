@@ -1,0 +1,29 @@
+{
+  "name": "chat-app",
+  "version": "1.0.0",
+  "description": "this is the chat ap[",
+  "keywords": [
+    "node",
+    "js",
+    "socket.io",
+    "express",
+    "javascript"
+  ],
+  "license": "ISC",
+  "author": "rehan sheikh",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "http": "^0.0.1-security",
+    "nodemon": "^3.1.14",
+    "path": "^0.12.7",
+    "socket.io": "^4.8.3"
+  }
+}
