@@ -20,11 +20,18 @@ socket.emit('welcome',`${socket.id} Welcome to the server.`)
     console.log('User Disconnected.',socket.id)
   })
 
-  socket.on("message",(e)=>{
-    io.emit("receive-message",e)
-    console.log(e)
+  socket.on("message",({Id,message})=>{
+    io.to(Id).emit("receive-message",message)
+    console.log({Id,message})  
   })
+
+  socket.on("join-room",(room) => {
+    socket.join(room)
+    console.log(`User joined The Room ${room}`)
+  })
+
 });
+
 
 server.listen(3000, () => {
   console.log("Server running on port 3000");

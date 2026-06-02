@@ -2,27 +2,32 @@ import { io } from "socket.io-client";
 import { useEffect, useMemo, useState } from "react";
 
 function App() {
-  const [message, setMessage] = useState("");
-  const [socketId,setSocketId] = useState("");
   const socket = useMemo(() => io("http://localhost:3000"), []);
+  const [messages, setMessages] = useState([]);
+  const [message, setMessage] = useState("");
+  const [Id, setId] = useState("");
+  const [socketId, setSocketId] = useState("");
+
   useEffect(() => {
     socket.on("connect", () => {
       console.log("connected", socket.id);
+      setSocketId(socket.id);
     });
     socket.on("welcome", (msg) => {
       console.log(msg);
     });
+
     socket.on("receive-message", (data) => {
-      console.log(data)
+      setMessages((messages) => [...messages, data]);
     });
     return () => {
       socket.disconnect();
-    }
+    };
   }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    socket.emit("message", message);
+    socket.emit("message", { Id: Id, message: message });
     if (!message.trim()) return;
     setMessage("");
   };
@@ -33,14 +38,16 @@ function App() {
         <div className="header">
           <h2>Live Chat</h2>
           <span>Online</span>
+          <h2>{socketId}</h2>
         </div>
 
-        <div className="messages">
-          <div className="message received">Hello, how can I help you?</div>
-
-          <div className="message sent">I need some information.</div>
-        </div>
-
+        <input
+          type="text"
+          placeholder="Enter Room Name."
+          className="idFiled"
+          value={Id}
+          onChange={(e) => setId(e.target.value)}
+        />
         <form className="chatForm" onSubmit={handleSubmit}>
           <input
             type="text"
@@ -51,6 +58,13 @@ function App() {
 
           <button type="submit">Send</button>
         </form>
+        {messages.map((m, i) => {
+          return (
+            <p className="class" key={i}>
+              {m}
+            </p>
+          );
+        })}
       </div>
     </div>
   );
