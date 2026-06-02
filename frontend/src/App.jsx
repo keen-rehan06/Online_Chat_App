@@ -36,7 +36,6 @@ function App() {
     <div className="container">
       <div className="chatBox">
         <div className="header">
-          <h2>Live Chat</h2>
           <span>Online</span>
           <h2>{socketId}</h2>
         </div>
